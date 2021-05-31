@@ -1,0 +1,25 @@
+csv error handling from stackoverflow
+
+line     = []
+expected = []
+saw      = []     
+cont     = True 
+
+while cont == True:     
+    try:
+        data = pd.read_csv('file1.csv',skiprows=line)
+        cont = False
+    except Exception as e:    
+        errortype = e.message.split('.')[0].strip()                                
+        if errortype == 'Error tokenizing data':                        
+           cerror      = e.message.split(':')[1].strip().replace(',','')
+           nums        = [n for n in cerror.split(' ') if str.isdigit(n)]
+           expected.append(int(nums[0]))
+           saw.append(int(nums[2]))
+           line.append(int(nums[1])-1)
+         else:
+           cerror      = 'Unknown'
+           print 'Unknown Error - 222'
+
+if line != []:
+    # Handle the errors however you want

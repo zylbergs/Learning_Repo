@@ -1,0 +1,39 @@
+-- analyst in news company
+-- inspecting data
+select *
+from startups;
+-- calculating total companies
+select count(distinct name)
+from startups;
+-- total value of all companies
+select sum(valuation)
+from startups;
+-- finding hight amount raised by startups in seed stage
+select max(raised)
+from startups
+where stage == 'Seed';
+-- oldest company 
+select min(founded)
+from startups;
+-- avg valuation in each category
+select round((avg(valuation)),2), category
+from startups
+group by 2 
+order by 1 desc;
+
+-- finding most competitive category
+select count(*) as total, category
+from startups
+group by 2
+having total >3 ;
+
+-- avg size of company in each locations
+select avg(employees), location
+from startups
+group by 2;
+-- avg above 500
+select avg(employees) as average_size, location
+from startups
+group by 2
+having average_size >500;
+

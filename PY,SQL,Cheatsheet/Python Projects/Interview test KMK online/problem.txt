@@ -1,0 +1,70 @@
+Question 1 of 1
+We have a plays dataset which contains 15 days of overall plays activity from users on Vidio. On the instruction section, there will be 1% until 100% of data sample there, hope you guys could analyze the data.
+
+Instruction:
+1. Please choose your dataset first, feel free to choose 1 out of 4 choices.
+a. sampling 1% plays dataset: https://storage.googleapis.com/data-analyst-interview/plays_sampling_01/part-00000-0dd5f001-57d7-4ec1-a3f0-53ea28bba9c3-c000.csv.gz
+b. sampling 10% plays dataset: https://storage.googleapis.com/data-analyst-interview/plays_sampling_07/part-00000-4803092d-32ab-4912-b2ba-d37dd93537a2-c000.csv.gz
+b. sampling 20% plays dataset: https://storage.googleapis.com/data-analyst-interview/plays_sampling_5/part-00000-04974b41-67dd-490b-9bca-9710614ee08e-c000.csv.gz
+c. sampling 30% plays dataset: https://storage.googleapis.com/data-analyst-interview/plays_sampling_20/part-00000-94def254-6ea6-4ddb-b9eb-19e74d3f9caf-c000.csv.gz
+d. plays dataset: https://storage.googleapis.com/data-analyst-interview/plays_data/part-00000-14d5bb3a-9bdc-4bf1-926b-bf7378014e46-c000.csv.gz
+2. Complete all the questions
+3. You don't need to work using all the dataset, but working with larger dataset is more challenging and more interesting.
+4. Please create a Google Drive Folder and attach your exploratory notebook / presentation deck into the folder. Give the name of the file with this template: vidio_{{your_name}}_question_{{number}}
+For example, vidio_boedi_question_1.pptx, vidio_boedi_question_1.py, vidio_boedi_question_1.xlsx.
+5. You could attach more than 1 file to answer 1 question
+6. Share the Google Drive folder url into the answer box
+7. Please make sure that the drive folder permission is set to public hence we could evaluate your answer
+8. Happy finding !
+
+Question:
+1. Conduct 1 exploratory data analysis from this dataset and present the exploratory, you could use presentation deck / docs / jupyter notebook. Using statistics method or ML model is a plus
+2. After conducting the Exploratory Analysis, what kind of insight that you could extract from this datasets? If you could tell us a stories around this data, it is a plus
+3. a What kind of tools that you use to work on this dataset?
+3. b Please let us know why and describe the significant advantage of that tools.
+4. How could we know the platform that user keenly used to watch? And how do you convince us that user are keenly watch on that platform? (For example, user keenly watch on web platform, because ... )
+5. Could you list top 10 visitors by using play_duration per day?
+
+Dictionary:
+
+hash_content_id: content_id watched by the play
+hash_play_uuid: id of the play
+hash_visit_id: session_id of the play
+hash_watcher_id: watcher_id of the play
+hash_film_id: film_id of the play
+hash_event_id: id of the play (deprecated)
+is_login: boolean when user is logged_in when watch
+playback_location: where user play the video (direct | embed)
+platform: platform used to play
+play_time: time the play started
+end_time: time the play ended
+referrer: attribution of the play, source of play coming from
+average_bitrate: average bitrate of play
+bitrate_range: bitrate_range set by user to play
+total_bytes: bytes used when play
+buffer_duration: buffer_duration happen while play content
+referrer_group: group of referrer
+completed: boolean which indicate the play is complete
+utm_source: campaign source
+utm_medium: campaign source
+utm_campaign: campaign source
+player_name: engine player_name
+has_ad: indicating the play has ad or not
+flash_version:
+os_name: os_name of device use to play
+os_version: os_version of device use to play
+browser_name: browser name of device use to play
+browser_version: browser version of device use to play
+app_name: app_name used to play
+autoplay: indicating the play is autoplay when watched on certain platform
+is_premium: indicate the content played is a premium content
+app_version: version app being used
+city: city where the watcher_id play content
+play_duration: duration of play
+content_type: content type of content (livestreaming | vod | catchup)
+stream_type: when content_type is livestreaming, stream_type is used to categorize the livestream (EventStream | TVStream | RadioStream)
+title: title of content
+category_name: category_name of content
+film_title: title of film
+season_name: season_name of film
+genre_name: genre name of film (if the film is available)

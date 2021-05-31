@@ -1,0 +1,44 @@
+-- inspecting data
+SELECT * FROM trips;
+
+SELECT * FROM riders;
+
+SELECT * FROM cars;
+
+-- joining table to find correlation between driver and its trip history
+select *
+from trips
+left join riders
+  on trips.rider_id = riders.id;
+-- joining table to find cars history
+  select *
+  from trips
+  join cars
+    on trips.car_id = cars.id;
+
+-- adding new data
+select *
+from riders
+union 
+select *
+from riders2;
+
+-- find average cost of a trips
+select avg(cost)
+from trips;
+
+-- marketing wants to know whoever riders that have not using apps within 500
+select *
+from riders
+where total_trips <500;
+
+-- finding total active cars
+select count(*)
+from cars
+where status = 'active';
+
+-- find two highest trip completed by a car
+select *
+from cars
+order by trips_completed desc
+limit 2;

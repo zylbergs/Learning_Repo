@@ -1,0 +1,92 @@
+with first_touch as(
+  select user_id,
+  min(timestamp) as first_touch_at
+  from page_visits
+  group by 1
+),
+last_touch as(
+  select user_id,
+    max(timestamp) as last_touch_at
+  from page_visits 
+  group by 1
+),
+
+ft_attr as(select ft.user_id,
+  ft.first_touch_at,
+  pv.utm_source,
+  pv.utm_campaign
+from first_touch as ft
+join page_visits as pv
+  on ft.user_id = pv.user_id
+  and ft.first_touch_at = pv.timestamp),
+
+lt_attr as(
+  select lt.user_id, 
+  lt.last_touch_at,
+  pv.utm_campaign,
+  pv.utm_source,
+  page_name
+from last_touch as lt
+join page_visits as pv
+  on lt.user_id = pv.user_id
+  and lt.last_touch_at = pv.timestamp
+)
+
+select utm_source,
+  utm_campaign,
+  page_name,
+  count(*)
+from lt_attr
+where page_name = '4 - purchase'
+group by 1,2;
+
+----------- SCND TRY -----------------------------------------------------------
+
+
+-- our web has 4 page step with give name : landing page,  shoppng cart, checkoutm purchase.
+-- this time we want to analyze which ads and campaign that have huge impact on first time and purchase time
+-- define first time filter users touch our web
+with first_time as (select user_id, min(timestamp) as first_time_at
+from page_visits
+group by 1),
+-- applying filter and inner joining temp table to the main page visit table. with that, all data only showing first time users touch our web
+join_table_ft as (select ft.user_id,
+ft.first_time_at,
+pv.utm_source,
+pv.utm_campaign,
+pv.page_name
+from first_time as ft
+join page_visits as pv
+  on ft.user_id = pv.user_id and
+  ft.first_time_at = pv.timestamp)
+-- counting what campaign and what source that attract users for the first time
+select utm_source, utm_campaign, count(*)
+from join_table_ft
+group by 1,2
+order by 3 desc;
+
+-- define last touch filter
+with last_touch as (select user_id, max(timestamp) as last_touch_at
+from page_visits
+group by 1),
+
+join_table_lt as (select lt.user_id,
+  lt.last_touch_at,
+  pv.utm_source,
+  pv.utm_campaign,
+  pv.page_name
+from last_touch as lt
+join page_visits as pv
+  on lt.user_id = pv.user_id and
+  lt.last_touch_at = pv.timestamp)
+-- in the query below, we can modify 
+select utm_source, utm_campaign, count(*)
+from join_table_lt
+where page_name = '4 - purchase'
+group by 1,2
+order by 3 desc;
+-- finding how many users in each page
+select count(distinct user_id), page_name
+from page_visits
+group by 2
+order by 1 desc; 

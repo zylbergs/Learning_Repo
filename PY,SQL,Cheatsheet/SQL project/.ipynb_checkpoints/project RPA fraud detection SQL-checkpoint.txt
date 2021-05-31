@@ -1,0 +1,25 @@
+select *
+from transaction_data
+limit 10;
+
+-- finding fraudsten with zip location clue
+
+select full_name, email
+from transaction_data
+where zip == 20252;
+-- finding fraudster with name clue
+select *
+from transaction_data
+where full_name like "%Art Vandelay%" or full_name like "% der %";
+
+-- finding fraud with short term email clue
+select * 
+from transaction_data
+where email like '%temp_email.com';
+
+--finding fraudster with ip and name clue
+select *
+from transaction_data
+where ip_address like '120%' and full_name like 'John%';
+
+-- DB schema (id,full_name, email, zip, ip_address)

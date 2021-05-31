@@ -1,0 +1,42 @@
+ -- db shcema table users (id, first_name, last_name, email, password)
+ -- db shcema table payment (id, user_id, amount, status, paydate)
+ -- db shcema table watch_history (id, user_id, watch-date, watch_duration_in_minutes)
+ 
+ -- most popular user name
+ select first_name, count(first_name)
+from users
+group by first_name
+order by count(first_name) desc;
+
+-- count how many and long users watching durations and group the data by duration
+
+select round(watch_duration_in_minutes,0) as duration, count(watch_duration_in_minutes) as count
+from watch_history
+group by duration
+order by watch_duration_in_minutes asc;
+
+-- select user that has more than 400 minute total watching duration
+select  user_id, sum(watch_duration_in_minutes) as total_duration
+from watch_history
+group by 1
+having total_duration > 400;
+
+-- total minute streamed in codeflix
+select round(sum(watch_duration_in_minutes),0)
+from watch_history;
+
+-- select date that codeflix collect most money
+select pay_date, sum(amount)
+from payments
+where status = 'paid'
+group by pay_date
+order by sum(amount) desc;
+
+-- select average money from users that paid
+select avg(amount)
+from payments
+where status = 'paid';
+
+-- wrangling table to find max and min duration
+select max(watch_duration_in_minutes) as max, min(watch_duration_in_minutes) as min
+from watch_history;

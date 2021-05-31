@@ -1,0 +1,71 @@
+-- defining month standard
+with months as(
+  select '2017-01-01' as first_day,
+  '2017-01-31' as last_day
+union
+select '2017-02-01' as first_day,
+'2017-02-28' as last_day
+union
+select '2017-03-01' as first_day,
+'2017-03-31' as last_day),
+-- joining month temp table with main table
+cross_join as(select *
+from months
+cross join subscriptions),
+-- seeking users status 
+status as(
+  select id, first_day as month, 
+  case -- active status check
+  when (subscription_start < first_day) and(
+    (subscription_end > first_day) or subscription_end is null) then 1 else 0
+  end as is_active_total, 
+  case -- not active/canceling status check
+  when (subscription_start < first_day) and
+  (subscription_end between first_day and last_day) then 1 else 0
+    end as is_canceled_total,
+  case -- checking active status for segment 87
+  when (subscription_start < first_day) and
+  (subscription_end > first_day or subscription_end is null) and segment = 87
+  then 1 else 0
+  end as active_87,
+  case -- checking active status for segment 30 
+  when (subscription_start < first_day) and
+  (subscription_end > first_day or subscription_end is null) and segment = 30
+  then 1 else 0
+  end as active_30,
+  case -- checking churn segment 87
+  when (subscription_start < first_day) and(
+  subscription_end between first_day and last_day) and segment =87 
+  then 1 else 0
+  end as canceled_87,
+  case -- checking churn segment 30
+  when (subscription_start < first_day) and
+  (subscription_end between first_day and last_day) and segment= 30
+  then 1 else 0
+  end as canceled_30,
+  segment
+  from cross_join
+),
+-- aggregating all status
+stat_agg as (select month, 
+sum(is_active_total) as total_active,
+sum(is_canceled_total) as total_cancel, 
+sum(active_87) as active_segment87,
+sum(active_30) as active_segment30,
+sum(canceled_87)as cancel_segment87, 
+sum(canceled_30) as cancel_segment30
+from status
+group by 1)
+
+select month,
+100.0*total_cancel/total_active as overall_churn,
+100.0*cancel_segment87/active_segment87 as churn_87,
+100.0* cancel_segment30/active_segment30 as churn_30
+from stat_agg
+group by 1;
+
+-- DB schemas
+id	INTEGER
+subscription_start	TEXT
+subscription_end	TEXT
+segment	INTEGER

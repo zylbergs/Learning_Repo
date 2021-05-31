@@ -1,0 +1,41 @@
+-- inspecting
+select * 
+from met
+limit 10;
+
+-- counting properties of American Decorative Arts
+select count(*)
+from met
+where department == 'American Decorative Arts';
+-- count pieces that have category : celery
+select count(*)
+from met
+where category like '%celery%';
+
+-- find title and medium of oldest collection
+select distinct title, medium,date
+from met
+order by date
+limit 5;
+
+-- finding top 10 country that contribute the most
+select country , count(*) as total
+from met
+where country is not null
+group by 1
+order by 2 desc
+limit 10;
+
+-- category that have more than 100 pieces
+select category, count(*) as total
+from met
+group by 1
+having total >100; 
+
+-- count pieces that  have silver or gold in their medium
+
+select medium, count(*) as total
+from met
+where medium like '%silver%' or medium like '%gold%'
+group by 1
+order by 2 desc;

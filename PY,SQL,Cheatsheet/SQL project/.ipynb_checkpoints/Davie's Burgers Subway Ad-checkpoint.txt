@@ -1,0 +1,22 @@
+-- selecting non null value from special instrunctions
+select special_instructions
+from orders
+where special_instructions is not null
+order by special_instructions asc;
+
+-- finding sauce special instructions
+select special_instructions
+from orders
+where special_instructions like '%sauce%';
+
+select special_instructions
+from orders
+where special_instructions like '%door%';
+
+select special_instructions
+from orders
+where special_instructions like '%box%';
+
+select id as '#', special_instructions as notes
+from orders
+limit 5;

@@ -1,0 +1,26 @@
+-- 1-9 rules or 90% rules
+with top_5 as(select user, sum(score) as five_top
+from hacker_news
+group by 1
+having sum(score) > 200),
+
+total_score as(select sum(score) as score_total
+from hacker_news)
+
+select 1.0 * sum(five_top) / score_total
+from top_5, total_score;
+
+-- simplifying url 
+select case
+  when url like '%github.com%' then 'GitHub'
+  when url like '%nytimes%' then 'NewYorkTimes'
+  when url like '%medium%' then 'Medium'
+  else 'other'
+  end as 'Source',count(url)
+from hacker_news
+group by 1;
+
+-- finding best hour to post article
+select timestamp, strftime('%H', timestamp) as distinct_hours, round(avg(score),2) as average_score, count(title) as number_of_story
+from hacker_news
+group by 2;
